@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   const checks: Record<string, CheckResult> = {}
 
-  const envOk = Boolean(process.env.LLM_BASE_URL || process.env.LLM_MODEL) && Boolean(process.env.DATABASE_URL)
+  const envOk = Boolean(process.env.LLM_PROVIDER || process.env.LLM_BASE_URL || process.env.LLM_MODEL) && Boolean(process.env.DATABASE_URL)
   checks.env = {
     ok: envOk,
     detail: envOk ? 'Env vars present' : 'Missing LLM_BASE_URL/LLM_MODEL or DATABASE_URL',

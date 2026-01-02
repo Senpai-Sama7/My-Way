@@ -75,31 +75,57 @@ bun start
 
 Open [http://localhost:3000](http://localhost:3000) to see your application running.
 
-## 🧠 Open-source LLM backend
+## � AI Configuration
 
-The scaffold now uses a **generic chat completion client** (via `src/lib/ai-client.ts`). You just need an LLM service that speaks a OpenAI/LLM-compatible chat API—for example:
+This scaffold features a flexible AI client (`src/lib/ai-client.ts`) that supports multiple providers. You can switch between them by setting environment variables in `.env.local`.
 
-1. **Run a local open-source server**, such as [Ollama](https://ollama.ai/docs/introduction) + an open-model (e.g., `ollama run llama3`), h2oGPT, or any other self-hosted REST endpoint.
-2. Set `LLM_BASE_URL` to the endpoint URL (default: `http://127.0.0.1:11434/api/chat/completions` for Ollama) and `LLM_MODEL` to the model name you want to use (default: `llama3.1`).
-3. Provide `LLM_API_KEY` only if your service enforces authentication.
+### Supported Providers
 
-Example `.env.local` (create in the repo root):
+- **Ollama** (Default) - For local inference.
+- **OpenAI** - For GPT-4o, GPT-3.5, etc.
+- **Gemini** - For Google's Gemini models (via OpenAI-compatible endpoint).
+- **OpenRouter** - For accessing various models (Claude, Llama 3, etc.).
+- **Local** - For other local servers (e.g., LM Studio).
 
-```env
-LLM_BASE_URL=http://127.0.0.1:11434/api/chat
-LLM_MODEL=qwen3-4b
-LLM_API_KEY=
-```
+### Setup
 
-No extra config file is required. As long as the backend can reach your chosen LLM server, the `/api/*` routes that power tutoring, TTS, and media generation will work.
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Configure your provider:
 
-### Local TTS (open-source)
+   **For Ollama (Local):**
+   ```env
+   LLM_PROVIDER=ollama
+   LLM_MODEL=llama3.1
+   ```
 
-The `/api/tts` route now uses **espeak-ng** to generate WAV audio locally. It is open-source and already installed on this machine. If you deploy elsewhere, install `espeak-ng` on the server or replace the TTS route with your preferred open-source TTS service.
+   **For OpenAI:**
+   ```env
+   LLM_PROVIDER=openai
+   LLM_API_KEY=sk-...
+   LLM_MODEL=gpt-4o
+   ```
 
-### Health checks
+   **For Gemini:**
+   ```env
+   LLM_PROVIDER=gemini
+   LLM_API_KEY=your-google-api-key
+   LLM_MODEL=gemini-2.0-flash
+   ```
 
-Use `GET /api/health` for a quick status. For a full dependency check (LLM + DB), use `GET /api/health?deep=1`.
+   **For OpenRouter:**
+   ```env
+   LLM_PROVIDER=openrouter
+   LLM_API_KEY=sk-...
+   LLM_MODEL=meta-llama/llama-3-8b-instruct:free
+   ```
+
+### Health Checks
+
+Use `GET /api/health` for a quick status.
+
 
 ## 🤖 AI Features
 
