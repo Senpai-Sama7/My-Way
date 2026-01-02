@@ -11,7 +11,7 @@ A modern, production-ready web application scaffold powered by cutting-edge tech
 - **State Management**: Zustand for client state, TanStack Query for server state
 - **Forms**: React Hook Form with Zod validation
 - **Authentication**: NextAuth.js for secure authentication flows
-- **AI Integration**: Flexible AI client supporting Ollama, OpenAI, Gemini, and OpenRouter
+- **AI Integration**: Unified client supporting Ollama, OpenAI, Gemini, etc., with runtime user configuration
 - **Testing**: Playwright for end-to-end tests
 - **Build Tool**: Bun for package management and development workflows
 - **Deployment**: Standalone output for containerized deployments

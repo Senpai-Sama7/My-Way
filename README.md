@@ -127,15 +127,35 @@ This scaffold features a flexible AI client (`src/lib/ai-client.ts`) that suppor
 Use `GET /api/health` for a quick status.
 
 
+
 ## 🤖 AI Features
 
-This scaffold is optimized for AI-driven development and learning:
+This scaffold is optimized for AI-driven development and personalized learning:
+
+### 🎓 Personalized Learning
+
+- **Conversational Learning**: Interactive dialogues with AI tutors tailored to your grade level and interests.
+- **Dynamic Content Generation**:
+  - **Slides**: Automatically generate educational slide decks from any content.
+  - **Quizzes**: Create personalized quizzes with varying difficulty levels.
+  - **Audio Lessons**: Synthesize engaging teacher-student conversations.
+  - **Mind Maps**: Visualize complex topics with hierarchical mind maps.
+- **PDF Analysis**: Upload PDFs or provide URLs to get summaries, key concepts, and guided questions.
+
+### ⚙️ Flexible AI Configuration
+
+- **Multi-Provider Support**: Seamlessly switch between Ollama, OpenAI, Gemini, OpenRouter, and more.
+- **User Preferences**: Configure AI settings (Provider, Model, API Key) directly from the UI.
+- **Local Inference**: First-class support for running models locally with Ollama for privacy and cost savings.
+
+### 🛠️ Developer Tools
 
 - **💻 Code Generation** - Generate components, pages, and features
 - **🎨 UI Development** - Create beautiful interfaces
 - **🔧 Bug Fixing** - Identify and resolve issues
 - **📝 Documentation** - Auto-generate comprehensive documentation
 - **🚀 Optimization** - Performance improvements and best practices
+
 
 
 ## 📁 Project Structure
