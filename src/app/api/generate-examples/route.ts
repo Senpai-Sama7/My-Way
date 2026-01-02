@@ -3,7 +3,7 @@ import { llmChat } from '@/lib/ai-client'
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, difficulty, interest } = await request.json()
+    const { topic, difficulty, interest, aiConfig } = await request.json()
 
     if (!topic) {
       return NextResponse.json(
@@ -12,7 +12,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const systemPrompt = `You are an expert educator specializing in creating relatable examples that illustrate complex concepts. Your examples help learners understand abstract ideas through concrete, real-world applications.
+    // Call the LLM
+    const response = await llmChat({
+      system: `You are an expert educator specializing in creating relatable examples that illustrate complex concepts. Your examples help learners understand abstract ideas through concrete, real-world applications.
 
 Example Generation Principles:
 1. Make examples concrete and specific - avoid vague statements
@@ -66,23 +68,15 @@ Quality Guidelines:
 - Use vivid language that creates mental imagery
 - Each example should be self-contained and understandable
 - Progressively build complexity across examples
-- Include a surprising or counterintuitive example to challenge assumptions`
-
-    const userPrompt = `Generate 3-4 concrete, engaging examples that illustrate the following concept.
-
-Topic: ${topic}
-Difficulty Level: ${difficulty || 7}
-Learner Interest: ${interest || 'Not specified - use universal examples'}
-
-Create examples that help the learner truly understand ${topic} through concrete scenarios.`
-
-    const response = await llmChat({
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userPrompt }],
-      temperature: 0.9, // Higher for more creative examples
-      max_tokens: 700,
+- Include a surprising or counterintuitive example to challenge assumptions`,
+      messages: [{ role: 'user', content: `Generate 3-4 concrete, engaging examples for: ${topic}` }],
+      temperature: 0.9,
       response_format: { type: 'json_object' },
-    } as any)
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
+    })
 
     try {
       const jsonMatch = response.text.match(/\{[\s\S]*\}/)

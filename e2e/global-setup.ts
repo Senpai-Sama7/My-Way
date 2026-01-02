@@ -8,7 +8,7 @@ const DEFAULT_LLM_BASE_URL = 'http://127.0.0.1:11434/api/chat'
 const DEFAULT_LLM_MODEL = 'qwen3-4b'
 const LLM_TIMEOUT_MS = 60_000
 const LLM_RETRY_DELAY_MS = 2_000
-const LLM_REQUEST_TIMEOUT_MS = 12_000
+const LLM_REQUEST_TIMEOUT_MS = 30_000
 
 function loadEnv() {
   loadEnvConfig(process.cwd())

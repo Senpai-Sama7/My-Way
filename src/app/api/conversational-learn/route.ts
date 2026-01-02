@@ -3,7 +3,7 @@ import { llmChat } from '@/lib/ai-client'
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, question, difficulty, interest, context } = await request.json()
+    const { topic, question, difficulty, interest, context, aiConfig } = await request.json()
 
     if (!question) {
       return NextResponse.json(
@@ -130,6 +130,10 @@ User's Question/Request: ${question}`
       messages: [{ role: 'user', content: userPrompt }],
       temperature: 0.8,
       max_tokens: 1500,
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     })
 
     // Parse the response

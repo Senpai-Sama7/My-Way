@@ -151,6 +151,10 @@ export default function Home() {
               <BookOpen className="h-4 w-4" />
               Explore AI Tools
             </Button>
+            <Button size="lg" variant="ghost" onClick={() => window.location.href = '/demo'} className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              View Demo
+            </Button>
           </div>
         </div>
       )}

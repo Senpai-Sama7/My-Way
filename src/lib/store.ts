@@ -37,6 +37,18 @@ interface AppState {
   // Navigation
   currentPage: string
   setCurrentPage: (page: string) => void
+
+  // AI Preferences
+  aiPreferences: AiPreferences
+  setAiPreferences: (prefs: Partial<AiPreferences>) => void
+}
+
+export interface AiPreferences {
+    provider: 'openai' | 'anthropic' | 'gemini' | 'ollama' | 'openrouter'
+    apiKey?: string
+    model?: string
+    baseUrl?: string
+    enabled: boolean
 }
 
 export const useAppStore = create<AppState>()(
@@ -55,15 +67,24 @@ export const useAppStore = create<AppState>()(
       setIsLoading: (loading) => set({ isLoading: loading }),
 
       // Navigation
-      currentPage: '/',
-      setCurrentPage: (page) => set({ currentPage: page }),
-    }),
-    {
-      name: 'learn-my-way-store',
-      partialize: (state) => ({
-        preferences: state.preferences,
-        currentSession: state.currentSession,
-      }),
-    }
+  // Navigation
+  currentPage: '/',
+  setCurrentPage: (page) => set({ currentPage: page }),
+
+  // AI Preferences
+  aiPreferences: {
+      provider: 'ollama',
+      enabled: true
+  },
+  setAiPreferences: (prefs) => set((state) => ({ aiPreferences: { ...state.aiPreferences, ...prefs } })),
+}),
+{
+  name: 'learn-my-way-store',
+  partialize: (state) => ({
+    preferences: state.preferences,
+    currentSession: state.currentSession,
+    aiPreferences: state.aiPreferences,
+  }),
+}
   )
 )

@@ -28,6 +28,7 @@ import {
   Bookmark,
   ChevronUp,
 } from 'lucide-react'
+import { useAppStore } from '@/lib/store'
 
 interface Message {
   id: string
@@ -69,6 +70,7 @@ export function ConversationalLearning() {
   const [bookmarkedSections, setBookmarkedSections] = useState<Set<string>>(new Set())
   const [isPaused, setIsPaused] = useState(false)
   const [activeView, setActiveView] = useState<'chat' | 'visual' | 'practice'>('chat')
+  const { aiPreferences } = useAppStore()
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -102,6 +104,7 @@ export function ConversationalLearning() {
           difficulty,
           interest,
           context: messages.slice(-5).map((m) => ({ role: m.role, content: m.content })),
+          aiConfig: aiPreferences,
         }),
       })
 
@@ -163,6 +166,7 @@ export function ConversationalLearning() {
           difficulty,
           interest,
           context: [],
+          aiConfig: aiPreferences,
         }),
       })
 

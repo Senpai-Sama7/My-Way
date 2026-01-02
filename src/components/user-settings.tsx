@@ -27,7 +27,9 @@ import {
   Loader2,
   CheckCircle2,
   XCircle,
+  Cpu,
 } from 'lucide-react'
+import { useAppStore } from '@/lib/store'
 
 interface LearningPreferences {
   gradeLevel: number
@@ -84,6 +86,7 @@ export function UserSettings() {
   const [saveMessage, setSaveMessage] = useState('')
   const [progressData, setProgressData] = useState<MaterialProgress[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const { aiPreferences, setAiPreferences } = useAppStore()
 
   // Load preferences and progress on mount
   useEffect(() => {
@@ -209,6 +212,10 @@ export function UserSettings() {
           <TabsTrigger value="progress" className="gap-2">
             <BarChart3 className="h-4 w-4" />
             Progress
+          </TabsTrigger>
+          <TabsTrigger value="ai" className="gap-2">
+            <Cpu className="h-4 w-4" />
+            AI Settings
           </TabsTrigger>
         </TabsList>
 
@@ -452,6 +459,77 @@ export function UserSettings() {
               </CardContent>
             </Card>
           )}
+        </TabsContent>
+          {/* AI Settings Tab */}
+        <TabsContent value="ai" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>AI Configuration</CardTitle>
+              <CardDescription>
+                Configure the AI provider and model settings
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-3">
+                <label className="text-sm font-medium">AI Provider</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {[
+                    { value: 'ollama', label: 'Ollama (Local)', icon: '🦙' },
+                    { value: 'openai', label: 'OpenAI', icon: '🤖' },
+                    { value: 'anthropic', label: 'Anthropic', icon: '🧠' },
+                    { value: 'gemini', label: 'Google Gemini', icon: '✨' },
+                    { value: 'openrouter', label: 'OpenRouter', icon: '⚡' },
+                  ].map((provider) => (
+                    <Button
+                      key={provider.value}
+                      variant={aiPreferences.provider === provider.value ? 'default' : 'outline'}
+                      onClick={() => setAiPreferences({ provider: provider.value as any })}
+                      className="justify-start gap-2"
+                    >
+                      <span>{provider.icon}</span>
+                      {provider.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-sm font-medium">API Key</label>
+                <Input
+                  type="password"
+                  placeholder={aiPreferences.provider === 'ollama' ? 'Not required for Ollama' : 'Enter API Key...'}
+                  value={aiPreferences.apiKey || ''}
+                  onChange={(e) => setAiPreferences({ apiKey: e.target.value })}
+                  disabled={aiPreferences.provider === 'ollama'}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {aiPreferences.provider === 'ollama' 
+                    ? 'Ollama runs locally and does not require an API key' 
+                    : 'Your API key is stored locally in your browser'}
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-sm font-medium">Model Name (Optional)</label>
+                <Input
+                  type="text"
+                  placeholder="e.g., gpt-4-turbo, llama3"
+                  value={aiPreferences.model || ''}
+                  onChange={(e) => setAiPreferences({ model: e.target.value })}
+                />
+              </div>
+
+               <div className="space-y-3">
+                <label className="text-sm font-medium">Base URL (Optional)</label>
+                <Input
+                  type="text"
+                  placeholder="Override default API URL..."
+                  value={aiPreferences.baseUrl || ''}
+                  onChange={(e) => setAiPreferences({ baseUrl: e.target.value })}
+                />
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

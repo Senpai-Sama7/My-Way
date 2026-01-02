@@ -11,6 +11,7 @@ import { BookOpen, Volume2, Network, Layout, Clock, Brain, HelpCircle, ChevronDo
 import { SectionQuiz } from '@/components/section-quiz'
 import type { LucideIcon } from 'lucide-react'
 import { useKeyboardNav } from '@/hooks/use-keyboard-nav'
+import { useAppStore } from '@/lib/store'
 
 type ViewType = 'immersive-text' | 'slides' | 'audio' | 'mindmap'
 
@@ -95,6 +96,7 @@ export function LearningView({
   audioContent,
   mindmapContent,
 }: LearningViewProps) {
+  const { aiPreferences } = useAppStore()
   const [activeView, setActiveView] = useState<ViewType>('immersive-text')
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set([0]))
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(new Set())
@@ -185,6 +187,7 @@ export function LearningView({
           interest,
           totalQuestions: 10,
           sections: sections.map((s) => ({ title: s.title, content: s.content })),
+          aiConfig: aiPreferences,
         }),
       })
 
@@ -409,6 +412,7 @@ export function LearningView({
                         materialTitle,
                         gradeLevel,
                         interest,
+                        aiConfig: aiPreferences,
                       }),
                     })
 
@@ -534,6 +538,7 @@ export function LearningView({
                         materialTitle,
                         gradeLevel,
                         interest,
+                        aiConfig: aiPreferences,
                       }),
                     })
 
@@ -643,6 +648,7 @@ export function LearningView({
                         materialTitle,
                         gradeLevel,
                         interest,
+                        aiConfig: aiPreferences,
                       }),
                     })
 

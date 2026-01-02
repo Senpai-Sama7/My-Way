@@ -14,14 +14,16 @@ export type LlmChatOptions = {
   baseUrl?: string
   response_format?: { type: 'json_object' | 'text' }
   stream?: boolean
+  provider?: string
+  apiKey?: string
 }
 
 type LlmProvider = 'openai' | 'anthropic' | 'gemini' | 'openrouter' | 'ollama' | 'local'
 
 export async function llmChat(options: LlmChatOptions): Promise<{ text: string; raw: any }> {
   // 1. Configuration
-  const provider = (process.env.LLM_PROVIDER || 'ollama').toLowerCase() as LlmProvider
-  const apiKey = process.env.LLM_API_KEY || ''
+  const provider = (options.provider || process.env.LLM_PROVIDER || 'ollama').toLowerCase() as LlmProvider
+  const apiKey = options.apiKey || process.env.LLM_API_KEY || ''
   const requestedModel = options.model || process.env.LLM_MODEL
   const defaultBaseUrl = getTypeCompatibleBaseUrl(provider)
   

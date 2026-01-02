@@ -3,7 +3,7 @@ import { llmChat } from '@/lib/ai-client'
 
 export async function POST(request: NextRequest) {
   try {
-    const { content, materialTitle, gradeLevel, interest } = await request.json()
+    const { content, materialTitle, gradeLevel, interest, aiConfig } = await request.json()
 
     if (!content || !materialTitle) {
       return NextResponse.json(
@@ -71,6 +71,10 @@ Generate a JSON-formatted conversation with visual suggestions:`
       temperature: 0.8, // Slightly higher for more natural conversation
       max_tokens: 900,
       response_format: { type: 'json_object' },
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     } as any)
 
     try {

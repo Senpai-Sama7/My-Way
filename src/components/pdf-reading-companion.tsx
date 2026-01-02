@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Upload, Link as LinkIcon, FileText, BrainCircuit, MessageSquare, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
+import { useAppStore } from '@/lib/store'
 
 interface Question {
   id: string
@@ -32,6 +33,7 @@ interface AnalysisResult {
 }
 
 export function PDFReadingCompanion() {
+  const { preferences, aiPreferences } = useAppStore()
   const [inputType, setInputType] = useState<'upload' | 'url'>('upload')
   const [url, setUrl] = useState('')
   const [file, setFile] = useState<File | null>(null)
@@ -64,6 +66,9 @@ export function PDFReadingCompanion() {
     try {
       const formData = new FormData()
       formData.append('file', file)
+      if (aiPreferences) {
+        formData.append('aiConfig', JSON.stringify(aiPreferences))
+      }
 
       const response = await fetch('/api/analyze-pdf', {
         method: 'POST',
@@ -97,7 +102,10 @@ export function PDFReadingCompanion() {
       const response = await fetch('/api/analyze-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ 
+          url,
+          aiConfig: aiPreferences
+        }),
       })
 
       if (!response.ok) {

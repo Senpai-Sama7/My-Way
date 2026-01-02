@@ -97,11 +97,20 @@ export async function POST(request: NextRequest) {
     const contentType = request.headers.get('content-type')
 
     let pdfText = ''
+    let aiConfig: any = null
 
     if (contentType?.includes('multipart/form-data')) {
       // Handle file upload
       const formData = await request.formData()
       const file = formData.get('file') as File
+      const aiConfigString = formData.get('aiConfig') as string
+      if (aiConfigString) {
+        try {
+          aiConfig = JSON.parse(aiConfigString)
+        } catch (e) {
+          console.warn('Failed to parse aiConfig from FormData', e)
+        }
+      }
 
       if (!file) {
         return NextResponse.json(
@@ -122,7 +131,8 @@ export async function POST(request: NextRequest) {
       pdfText = await extractPdfText(bytes)
     } else {
       // Handle URL input
-      const { url } = await request.json()
+      const { url, aiConfig: config } = await request.json()
+      aiConfig = config
 
       if (!url) {
         return NextResponse.json(
@@ -214,6 +224,10 @@ ${llmInputText}`
       messages: [{ role: 'user', content: summaryPrompt }],
       temperature: 0.5,
       max_tokens: 300,
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     })
 
     // Generate key concepts
@@ -239,6 +253,10 @@ ${llmInputText}`
       messages: [{ role: 'user', content: conceptsPrompt }],
       temperature: 0.5,
       max_tokens: 400,
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     })
 
     let keyConcepts = []
@@ -274,6 +292,10 @@ ${llmInputText}`
       messages: [{ role: 'user', content: questionsPrompt }],
       temperature: 0.7,
       max_tokens: 400,
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     })
 
     let questions = []
@@ -306,6 +328,10 @@ ${llmInputText}`
       messages: [{ role: 'user', content: sectionsPrompt }],
       temperature: 0.5,
       max_tokens: 300,
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     })
 
     let sections = []

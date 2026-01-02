@@ -3,7 +3,7 @@ import { llmChat } from '@/lib/ai-client'
 
 export async function POST(request: NextRequest) {
   try {
-    const { materialTitle, sections, gradeLevel, interest, totalQuestions } = await request.json()
+    const { materialTitle, sections, gradeLevel, interest, totalQuestions, aiConfig } = await request.json()
 
     if (!materialTitle || !sections || !Array.isArray(sections)) {
       return NextResponse.json(
@@ -75,6 +75,10 @@ Return ONLY the JSON object.`
       temperature: 0.7,
       max_tokens: 2000,
       response_format: { type: 'json_object' },
+      provider: aiConfig?.provider,
+      apiKey: aiConfig?.apiKey,
+      baseUrl: aiConfig?.baseUrl,
+      model: aiConfig?.model,
     } as any)
 
     const jsonMatch = response.text.match(/\{[\s\S]*\}/)
