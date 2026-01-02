@@ -21,12 +21,12 @@ export const metadata: Metadata = {
   keywords: ["Learn Your Way", "AI", "Education", "Personalized Learning", "Textbook", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui"],
   authors: [{ name: "Learn Your Way Team" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.ico", // Updated to generic favicon
   },
   openGraph: {
     title: "Learn Your Way - AI-Augmented Textbook",
     description: "Personalized learning experience with AI-powered textbook transformations",
-    url: "https://chat.z.ai",
+    url: "https://example.com",
     siteName: "Learn Your Way",
     type: "website",
   },

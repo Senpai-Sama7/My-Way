@@ -13,7 +13,7 @@ This repository is a Next.js 15 + TypeScript scaffold with Tailwind CSS, shadcn/
 
 ## Architecture Overview
 - App Router pages and layouts live in `src/app/` (see `src/app/layout.tsx`).
-- API routes live in `src/app/api/` and call `src/lib/zai.ts` for LLM-backed generation.
+- API routes live in `src/app/api/` and call `src/lib/ai-client.ts` for LLM-backed generation.
 - Persistence uses Prisma (`prisma/schema.prisma`) with `DATABASE_URL` in env; `public/` serves static files.
 
 ## Build, Test, and Development Commands

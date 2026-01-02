@@ -1,6 +1,6 @@
-# 🚀 Welcome to Z.ai Code Scaffold
+# 🚀 Welcome to Learn Your Way
 
-A modern, production-ready web application scaffold powered by cutting-edge technologies, designed to accelerate your development with [Z.ai](https://chat.z.ai)'s AI-powered coding assistance.
+A modern, production-ready web application scaffold powered by cutting-edge technologies, designed to accelerate your development with AI-powered personalized learning.
 
 ## ✨ Technology Stack
 
@@ -77,7 +77,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your application runn
 
 ## 🧠 Open-source LLM backend
 
-The scaffold now uses a **generic chat completion client** (via `src/lib/zai.ts`) instead of the proprietary `z-ai-web-dev-sdk`. You just need an LLM service that speaks a OpenAI/LLM-compatible chat API—for example:
+The scaffold now uses a **generic chat completion client** (via `src/lib/ai-client.ts`). You just need an LLM service that speaks a OpenAI/LLM-compatible chat API—for example:
 
 1. **Run a local open-source server**, such as [Ollama](https://ollama.ai/docs/introduction) + an open-model (e.g., `ollama run llama3`), h2oGPT, or any other self-hosted REST endpoint.
 2. Set `LLM_BASE_URL` to the endpoint URL (default: `http://127.0.0.1:11434/api/chat/completions` for Ollama) and `LLM_MODEL` to the model name you want to use (default: `llama3.1`).
@@ -91,7 +91,7 @@ LLM_MODEL=qwen3-4b
 LLM_API_KEY=
 ```
 
-No `.z-ai-config` file is required anymore. As long as the backend can reach your chosen LLM server, the `/api/*` routes that power tutoring, TTS, and media generation will work without proprietary SDKs.
+No extra config file is required. As long as the backend can reach your chosen LLM server, the `/api/*` routes that power tutoring, TTS, and media generation will work.
 
 ### Local TTS (open-source)
 
@@ -101,17 +101,16 @@ The `/api/tts` route now uses **espeak-ng** to generate WAV audio locally. It is
 
 Use `GET /api/health` for a quick status. For a full dependency check (LLM + DB), use `GET /api/health?deep=1`.
 
-## 🤖 Powered by Z.ai
+## 🤖 AI Features
 
-This scaffold is optimized for use with [Z.ai](https://chat.z.ai) - your AI assistant for:
+This scaffold is optimized for AI-driven development and learning:
 
-- **💻 Code Generation** - Generate components, pages, and features instantly
-- **🎨 UI Development** - Create beautiful interfaces with AI assistance  
-- **🔧 Bug Fixing** - Identify and resolve issues with intelligent suggestions
+- **💻 Code Generation** - Generate components, pages, and features
+- **🎨 UI Development** - Create beautiful interfaces
+- **🔧 Bug Fixing** - Identify and resolve issues
 - **📝 Documentation** - Auto-generate comprehensive documentation
 - **🚀 Optimization** - Performance improvements and best practices
 
-Ready to build something amazing? Start chatting with Z.ai at [chat.z.ai](https://chat.z.ai) and experience the future of AI-powered development!
 
 ## 📁 Project Structure
 
@@ -158,14 +157,13 @@ This scaffold includes a comprehensive set of modern web development tools:
 - **Type Safety**: End-to-end TypeScript with Zod validation
 - **Essential Hooks**: 100+ useful React hooks with ReactUse for common patterns
 
-## 🤝 Get Started with Z.ai
+## 🤝 Get Started
 
 1. **Clone this scaffold** to jumpstart your project
-2. **Visit [chat.z.ai](https://chat.z.ai)** to access your AI coding assistant
-3. **Start building** with intelligent code generation and assistance
-4. **Deploy with confidence** using the production-ready setup
+2. **Start building** with intelligent code generation and assistance
+3. **Deploy with confidence** using the production-ready setup
 
 ---
 
-Built with ❤️ for the developer community. Supercharged by [Z.ai](https://chat.z.ai) 🚀
+Built with ❤️ for the developer community.
 # My-Way

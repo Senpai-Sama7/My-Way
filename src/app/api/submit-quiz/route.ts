@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { llmChat } from '@/lib/zai'
+import { llmChat } from '@/lib/ai-client'
 
 interface QuizSubmission {
   title?: string
