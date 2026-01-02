@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String               @id @default(cuid())
+  email         String?              @unique
+  name          String?
+  gradeLevel    Int                  @default(8) // e.g., 6..13 where 13 is undergraduate
+  interest      String?              // e.g., sports, music, food, gaming, art
+  learningStyle String               @default("reading")
+  dailyGoal     Int                  @default(30) // minutes per day
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  progress      UserProgress[]
+  quizAttempts  QuizAttempt[]
+  personalized  PersonalizedContent[]
+}
+
+model Material {
+  id              String        @id @default(cuid())
+  title           String
+  category        String        // e.g., physics, biology, history, economy
+  originalContent String        // Original textbook content
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  personalized    PersonalizedContent[]
+  quizzes         Quiz[]
+}
+
+model PersonalizedContent {
+  id              String   @id @default(cuid())
+  materialId      String
+  material        Material @relation(fields: [materialId], references: [id])
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  gradeLevel      Int
+  interest        String?
+  personalizedText String
+  slidesContent   String?
+  audioContent    String?
+  mindmapContent  String?
+  timelineContent String?
+  memoryAid       String?
+  visualIllustrations String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([materialId, userId, gradeLevel, interest])
+}
+
+model UserProgress {
+  id                   String   @id @default(cuid())
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id])
+  materialId           String
+  currentView          String   // immersive-text, slides, audio, mindmap
+  currentSectionIndex   Int      @default(0)
+  completedSections    String   // JSON array of section indices
+  viewedSlides         Boolean  @default(false)
+  viewedAudio          Boolean  @default(false)
+  viewedMindmap        Boolean  @default(false)
+  embeddedQuestionsSeen String  // JSON array of question IDs
+  lastAccessedAt       DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@unique([userId, materialId])
+}
+
+model Quiz {
+  id              String       @id @default(cuid())
+  materialId      String
+  material        Material     @relation(fields: [materialId], references: [id])
+  sectionIndex    Int
+  questions       String       // JSON array of question objects
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  attempts        QuizAttempt[]
+}
+
+model QuizAttempt {
+  id              String   @id @default(cuid())
+  quizId          String
+  quiz            Quiz     @relation(fields: [quizId], references: [id])
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  answers         String   // JSON object with answers
+  score           Float
+  feedback        String?  // Glow and grow feedback
+  completedAt     DateTime @default(now())
+}
+
+model EmbeddedQuestion {
+  id              String   @id @default(cuid())
+  materialId      String
+  sectionIndex    Int
+  paragraphIndex  Int
+  question        String
+  options         String   // JSON array of options
+  correctAnswer   Int
+  explanation     String?
+  createdAt       DateTime @default(now())
+}

@@ -1,0 +1,53 @@
+                                                                                                                                       2025-10-01
+
+
+
+                                         Towards an AI-Augmented Textbook
+                                         LearnLM Team, Google
+
+
+
+                                         Textbooks are a cornerstone of education, but they have a fundamental limitation: they are a one-size-
+                                         fits-all medium. Any new material or alternative representation requires arduous human effort, so
+                                         that textbooks cannot be adapted in a scalable manner. We present an approach for transforming and
+                                         augmenting textbooks using generative AI, adding layers of multiple representations and personalization
+                                         while maintaining content integrity and quality. We refer to the system built with this approach as Learn
+                                         Your Way. We report pedagogical evaluations of the different transformations and augmentations, and
+                                         present the results of a a randomized control trial, highlighting the advantages of learning with Learn
+arXiv:2509.13348v4 [cs.CY] 30 Sep 2025
+
+
+
+
+                                         Your Way over regular textbook usage.
+
+
+                                         Keywords: Personalized learning, generative education, content transformations
+
+
+                                         1. Introduction
+                                         Recent advances in generative Artificial Intelligence (Gen-AI) have the potential to revolutionize
+                                         education, but this potential is yet to be realized in full. It requires a responsible, multidisciplinary
+                                         approach to weave together learning science and cutting edge technology. In this work, we focus on
+                                         a central aspect of the current learning journey: exploring textbook material. Traditionally, every
+                                         school selects several textbooks that are meant for use by all learners. The textbooks, by definition,
+                                         are inflexible and not adaptive, as it is impractical to manually create a version for every audience,
+                                         and certainly not one that would adapt to individual user needs. Here we argue that in the age of
+                                         Gen-AI, this notion of a flexible and personalized textbook is in fact within reach. Specifically, we
+                                         show how textbooks can be transformed into a richer and more personalized form, while maintaining
+                                         the integrity of the original content, and adding layers that promote effective learning.
+                                             Our textbook augmentation approach takes as input a textbook segment or chapters and uses
+                                         them as the basis for extensive generated content, practice and evaluation. Our approach rests on
+                                         two key concepts that underlie the corresponding augmentations of the original content: multiple
+                                         representations and personalization. We propose a two step AI generation scheme whereby the
+                                         original text is first personalized, and then transformed into a range of presentation forms and
+                                         assessment components. A key desiderata in this process is that content is adequately aligned with
+                                         the source and curriculum, and that the presentation is engaging and pedagogically effective. We
+                                         implement our approach in an experimental learning experience that we call Learn Your Way.
+                                             We begin with the pedagogical observation that learning can be more effective when the experience
+                                         is adapted to the characteristics and needs of the learner [see 1, 2, for a review of personalization
+                                         approaches]. Learn Your Way is thus designed to first re-generate the original textbook content, based
+                                         on specific learner attributes. In addition, Learn Your Way generates assessment opportunities for
+                                         the learner which serve to create a signal about their progress, reflect personalized feedback to the
+                                         learner, and influence subsequent steps.
+                                             The value of multiple representations of content has been studied i

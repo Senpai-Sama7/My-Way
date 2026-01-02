@@ -1,0 +1,16 @@
+const { chromium } = require('@playwright/test')
+
+;(async () => {
+  const browser = await chromium.launch({ headless: true })
+  const page = await browser.newPage()
+  await page.goto('http://127.0.0.1:3000')
+  await page.getByRole('button', { name: 'Get Started' }).click()
+  await page.getByRole('button', { name: /6th/ }).click()
+  await page.getByRole('button', { name: /Sports/ }).click()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByText("Newton's Third Law of Motion").click()
+  await page.getByRole('button', { name: 'Start Learning' }).click()
+  await page.waitForTimeout(2000)
+  console.log('url', page.url())
+  await browser.close()
+})()
