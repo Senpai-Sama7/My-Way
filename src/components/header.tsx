@@ -1,9 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { BookOpen, BrainCircuit, Settings } from 'lucide-react'
+import { BookOpen, BrainCircuit, Settings, Moon, Sun } from 'lucide-react'
 
 export function Header() {
+  const { theme, setTheme } = useTheme()
+
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container flex h-16 items-center justify-between">
@@ -18,6 +23,15 @@ export function Header() {
         </div>
 
         <nav className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          >
+            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
           <Button variant="ghost" size="sm" asChild>
             <Link href="/settings" className="gap-2">
               <Settings className="h-4 w-4" />

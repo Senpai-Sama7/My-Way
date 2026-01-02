@@ -32,7 +32,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Only wav output is supported for local TTS.' }, { status: 400 })
     }
 
-    const voiceArg = typeof voice === 'string' && voice.trim() ? voice.trim() : ''
+    // Sanitize voice parameter to prevent command injection
+    let voiceArg = ''
+    if (typeof voice === 'string' && voice.trim()) {
+      voiceArg = voice.trim().replace(/[^a-zA-Z0-9-+]/g, '') // Only allow alphanumeric, hyphen, plus
+      if (!voiceArg) {
+        return NextResponse.json(
+          { error: 'Invalid voice parameter. Only alphanumeric characters, hyphens, and plus signs are allowed.' },
+          { status: 400 }
+        )
+      }
+    }
+    
     const wpmRaw = typeof speed === 'number' ? Math.round(DEFAULT_WPM * speed) : DEFAULT_WPM
     const wpm = Math.min(MAX_WPM, Math.max(MIN_WPM, wpmRaw))
 

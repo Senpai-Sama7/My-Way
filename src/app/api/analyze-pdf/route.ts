@@ -10,27 +10,44 @@ const MAX_EXTRACTED_CHARS = 180_000
 function isBlockedHostname(hostname: string): boolean {
   const host = hostname.toLowerCase().trim()
   if (!host) return true
+  
+  // Block localhost and local domains
   if (host === 'localhost' || host.endsWith('.localhost')) return true
   if (host.endsWith('.local')) return true
+  if (host.endsWith('.internal')) return true
 
-  // Block obvious private IP literals (IPv4)
+  // Block IPv6 loopback and private
+  if (host === '::1') return true
+  if (host.startsWith('fe80:')) return true // link-local
+  if (host.startsWith('fc') || host.startsWith('fd')) return true // unique local
+  if (host.startsWith('ff')) return true // multicast
+
+  // Block IPv4 private, loopback, and link-local
   const ipv4Match = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
   if (ipv4Match) {
     const parts = ipv4Match.slice(1).map((n) => Number(n))
     if (parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) return true
-    const [a, b] = parts
-    if (a === 10) return true
-    if (a === 127) return true
-    if (a === 0) return true
-    if (a === 169 && b === 254) return true // link-local
-    if (a === 192 && b === 168) return true
-    if (a === 172 && b >= 16 && b <= 31) return true
+    const [a, b, c] = parts
+    
+    // Private IP ranges
+    if (a === 10) return true // 10.0.0.0/8
+    if (a === 127) return true // 127.0.0.0/8 (loopback)
+    if (a === 0) return true // 0.0.0.0/8
+    if (a === 169 && b === 254) return true // 169.254.0.0/16 (link-local)
+    if (a === 192 && b === 168) return true // 192.168.0.0/16
+    if (a === 172 && b >= 16 && b <= 31) return true // 172.16.0.0/12
+    if (a === 100 && b >= 64 && b <= 127) return true // 100.64.0.0/10 (carrier-grade NAT)
+    if (a === 192 && b === 0 && c === 0) return true // 192.0.0.0/24 (IETF Protocol Assignments)
+    if (a === 192 && b === 0 && c === 2) return true // 192.0.2.0/24 (TEST-NET-1)
+    if (a === 198 && b === 51 && c === 100) return true // 198.51.100.0/24 (TEST-NET-2)
+    if (a === 203 && b === 0 && c === 113) return true // 203.0.113.0/24 (TEST-NET-3)
+    
     return false
   }
 
-  // Block obvious loopback/unique-local IPv6 literals
-  if (host === '::1') return true
-  if (host.startsWith('fc') || host.startsWith('fd')) return true // unique local
+  // Block IP literal patterns that might be obfuscated
+  if (/^0x[0-9a-f]+/i.test(host)) return true // Hex IP
+  if (/^\d+$/.test(host)) return true // Numeric IP
 
   return false
 }

@@ -13,9 +13,8 @@ const LLM_REQUEST_TIMEOUT_MS = 12_000
 function loadEnv() {
   loadEnvConfig(process.cwd())
 
-  if (!process.env.DATABASE_URL) {
-    process.env.DATABASE_URL = DEFAULT_DB_URL
-  }
+  // Explicitly set DATABASE_URL since loadEnvConfig might not be working
+  process.env.DATABASE_URL = DEFAULT_DB_URL
 
   if (!process.env.LLM_BASE_URL) {
     process.env.LLM_BASE_URL = DEFAULT_LLM_BASE_URL
